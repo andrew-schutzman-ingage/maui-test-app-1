@@ -1,21 +1,22 @@
-# MAUI Feature Showcase
+# MAUI Feature Showcase (WebView + Vue.js)
 
-A .NET MAUI application demonstrating the breadth of features available for cross-platform development with .NET MAUI.
-
-## Features
-
-- **Controls Gallery** - Interactive demos of 14 MAUI controls: Button, Entry, Editor, CheckBox, Switch, Slider, Stepper, DatePicker, TimePicker, Picker, ActivityIndicator, ProgressBar, SearchBar, and more
-- **Layouts Demo** - Visual demonstrations of VerticalStackLayout, HorizontalStackLayout, Grid (with column/row spanning), FlexLayout (CSS Flexbox), and AbsoluteLayout
-- **CollectionView & Data** - Grouped data display with real-time search filtering, pull-to-refresh, swipe-to-delete, and empty view states
-- **Graphics & Animations** - Custom IDrawable shapes (circles, gradients, star path, bezier curves), built-in animations (fade, rotate, scale, translate, composite), and Visual State Manager
-- **Platform Features** - Device info, connectivity check, clipboard, share sheet, geolocation, vibration, flashlight, and Preferences key-value storage
+A .NET MAUI application demonstrating a hybrid architecture using the native MAUI `WebView` control with a Vue.js single-page application for the UI layer.
 
 ## Architecture
 
-- **Pattern**: MVVM (Model-View-ViewModel) using CommunityToolkit.Mvvm
-- **Navigation**: .NET MAUI Shell with registered routes
-- **DI**: Built-in Microsoft.Extensions.DependencyInjection
-- **UI**: XAML with data binding, styles in ResourceDictionary
+This app uses a **hybrid WebView approach**:
+- **Host**: .NET MAUI native app with a full-screen `WebView` control
+- **UI**: Vue.js 3 SPA with Vue Router, loaded from local resources
+- **Navigation**: Hash-based client-side routing handled by Vue Router
+- **Styling**: CSS with dark/light theme support via `prefers-color-scheme`
+
+## Features
+
+- **Controls Gallery** — Interactive demos of Button, Entry, Editor, CheckBox, Switch, Slider, Stepper, DatePicker, TimePicker, Picker, ActivityIndicator, ProgressBar, and SearchBar
+- **Layouts Demo** — Visual demonstrations of Vertical Stack, Horizontal Stack, Grid (with spanning), Flex Layout, and Absolute Layout
+- **CollectionView & Data** — Grouped data display with real-time search filtering, refresh simulation, and delete actions
+- **Graphics & Animations** — Canvas-drawn shapes (circle, rectangle, triangle), gradients, star path, bezier curves, CSS animations (fade, rotate, scale, translate, composite), and visual state management
+- **Platform Features** — Device info, connectivity status, clipboard, Web Share API, geolocation, localStorage preferences, and vibration API
 
 ## Requirements
 
@@ -29,7 +30,7 @@ A .NET MAUI application demonstrating the breadth of features available for cros
 2. Select a target platform (Windows, Android emulator, iOS simulator, etc.)
 3. Press F5 to build and run
 
-Or from the command line (Windows/macOS only):
+Or from the command line:
 
 ```bash
 cd MauiTestApp
@@ -43,19 +44,25 @@ dotnet build -f net9.0-maccatalyst             # macOS
 
 ```
 MauiTestApp/
-├── Models/           # Data models (FeatureCategory, FeatureDemo, SampleDataItem)
-├── ViewModels/       # MVVM ViewModels with ObservableObject and RelayCommand
-├── Views/            # XAML pages organized by feature category
-│   ├── Controls/     # Controls gallery
-│   ├── Layouts/      # Layout demonstrations
-│   ├── Data/         # CollectionView demo
-│   ├── Graphics/     # Shapes, animations, visual states
-│   └── Platform/     # Device and platform APIs
-├── Converters/       # IValueConverter implementations
-├── Services/         # Data services
-└── Resources/        # Styles, fonts, images
+├── App.xaml / App.xaml.cs        # Application entry point
+├── AppShell.xaml / .cs           # Shell with single MainPage route
+├── MainPage.xaml / .cs           # WebView host page (loads Vue.js SPA)
+├── MauiProgram.cs                # Minimal DI configuration
+├── Resources/
+│   ├── Raw/
+│   │   └── index.html            # Vue.js SPA (all components inline)
+│   ├── Images/                   # App icons
+│   ├── Splash/                   # Splash screen
+│   ├── Styles/                   # MAUI styles
+│   └── Fonts/                    # App fonts
+└── Platforms/
+    └── Windows/                  # Windows platform files
 ```
 
-## Spec-Driven Development
+## How It Works
 
-This project was built using [GitHub Spec Kit](https://github.com/github/spec-kit). See `.specify/` for the specification, implementation plan, and task breakdown.
+1. The MAUI app loads `MainPage`, which contains a full-screen `WebView`
+2. On initialization, `MainPage.xaml.cs` reads `index.html` from app package resources
+3. The HTML content (containing the Vue.js app) is set as the WebView's `HtmlWebViewSource`
+4. Vue Router handles all navigation within the WebView using hash-based routing
+5. All UI rendering, state management, and interactions are handled by Vue.js
