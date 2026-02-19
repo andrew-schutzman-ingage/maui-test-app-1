@@ -5,8 +5,10 @@
              Title="MAUI Feature Showcase"
              Shell.NavBarIsVisible="False">
 
-    <WebView x:Name="AppWebView"
-             HorizontalOptions="FillAndExpand"
-             VerticalOptions="FillAndExpand" />
+    <HybridWebView x:Name="AppWebView"
+                   HybridRoot="wwwroot"
+                   DefaultFile="index.html"
+                   HorizontalOptions="FillAndExpand"
+                   VerticalOptions="FillAndExpand" />
 
 </ContentPage>
