@@ -1,0 +1,87 @@
+@page "/graphics"
+
+<div class="page-title">Graphics &amp; Animations</div>
+
+<!-- SVG Shapes -->
+<div class="card">
+    <div class="card-title">SVG Shapes</div>
+    <div class="graphics-grid">
+        <div class="graphics-card">
+            <svg width="120" height="120" viewBox="0 0 120 120">
+                <circle cx="60" cy="60" r="50" fill="#512BD4" opacity="0.85" />
+            </svg>
+            <div class="graphics-label">Circle</div>
+        </div>
+
+        <div class="graphics-card">
+            <svg width="120" height="120" viewBox="0 0 120 120">
+                <defs>
+                    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#512BD4;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#DFD8F7;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <rect x="10" y="10" width="100" height="100" rx="12" fill="url(#grad1)" />
+            </svg>
+            <div class="graphics-label">Gradient Rect</div>
+        </div>
+
+        <div class="graphics-card">
+            <svg width="120" height="120" viewBox="0 0 120 120">
+                <polygon points="60,5 75,45 118,45 83,70 95,112 60,87 25,112 37,70 2,45 45,45"
+                         fill="#7C5FE8" />
+            </svg>
+            <div class="graphics-label">Star</div>
+        </div>
+
+        <div class="graphics-card">
+            <svg width="120" height="120" viewBox="0 0 120 120">
+                <path d="M10,100 C10,10 50,10 60,50 C70,90 110,90 110,10"
+                      stroke="#512BD4" stroke-width="4" fill="none" />
+            </svg>
+            <div class="graphics-label">Bezier Curve</div>
+        </div>
+    </div>
+</div>
+
+<!-- CSS Animations -->
+<div class="card">
+    <div class="card-title">CSS Animations</div>
+    <div class="animation-grid">
+        <div class="animation-card anim-fade">
+            <div class="anim-box"></div>
+            <div class="animation-label">Fade</div>
+        </div>
+
+        <div class="animation-card anim-rotate">
+            <div class="anim-box"></div>
+            <div class="animation-label">Rotate</div>
+        </div>
+
+        <div class="animation-card anim-scale">
+            <div class="anim-box"></div>
+            <div class="animation-label">Scale</div>
+        </div>
+
+        <div class="animation-card anim-translate">
+            <div class="anim-box"></div>
+            <div class="animation-label">Translate</div>
+        </div>
+
+        <div class="animation-card anim-composite">
+            <div class="anim-box"></div>
+            <div class="animation-label">Composite</div>
+        </div>
+    </div>
+</div>
+
+<!-- Interactive States -->
+<div class="card">
+    <div class="card-title">Interactive States (Hover &amp; Active)</div>
+    <div class="interactive-grid">
+        <div class="interactive-box hover-grow">Hover: Grow</div>
+        <div class="interactive-box hover-shadow">Hover: Shadow</div>
+        <div class="interactive-box hover-color">Hover: Color</div>
+        <div class="interactive-box active-press">Active: Press</div>
+    </div>
+</div>

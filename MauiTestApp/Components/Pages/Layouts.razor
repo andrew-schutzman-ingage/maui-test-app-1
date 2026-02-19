@@ -1,0 +1,67 @@
+@page "/layouts"
+
+<div class="page-title">Layouts Demo</div>
+
+<!-- Vertical Stack -->
+<div class="card">
+    <div class="card-title">Vertical Stack (Column)</div>
+    <div class="card-subtitle">Items stacked top-to-bottom using flexbox column</div>
+    <div class="stack-vertical">
+        <div class="stack-item">Item 1</div>
+        <div class="stack-item">Item 2</div>
+        <div class="stack-item">Item 3</div>
+        <div class="stack-item">Item 4</div>
+    </div>
+</div>
+
+<!-- Horizontal Stack -->
+<div class="card">
+    <div class="card-title">Horizontal Stack (Row)</div>
+    <div class="card-subtitle">Items arranged left-to-right using flexbox row</div>
+    <div class="stack-horizontal">
+        <div class="stack-item" style="flex:1;">Left</div>
+        <div class="stack-item" style="flex:2;">Center (2x)</div>
+        <div class="stack-item" style="flex:1;">Right</div>
+    </div>
+</div>
+
+<!-- Grid Layout -->
+<div class="card">
+    <div class="card-title">Grid Layout</div>
+    <div class="card-subtitle">CSS Grid with spanning cells</div>
+    <div class="grid-demo">
+        <div class="grid-item span-2">Span 2 Columns</div>
+        <div class="grid-item span-row-2">Span 2 Rows</div>
+        <div class="grid-item">Cell</div>
+        <div class="grid-item">Cell</div>
+        <div class="grid-item">Cell</div>
+        <div class="grid-item">Cell</div>
+        <div class="grid-item">Cell</div>
+    </div>
+</div>
+
+<!-- Flex Layout / Wrap -->
+<div class="card">
+    <div class="card-title">Flex Layout (Wrap)</div>
+    <div class="card-subtitle">Flex items wrapping to fill available space</div>
+    <div class="flex-demo">
+        <div class="flex-item">Alpha</div>
+        <div class="flex-item">Beta</div>
+        <div class="flex-item">Gamma</div>
+        <div class="flex-item">Delta</div>
+        <div class="flex-item">Epsilon</div>
+        <div class="flex-item">Zeta</div>
+        <div class="flex-item">Eta</div>
+    </div>
+</div>
+
+<!-- Absolute / Overlap -->
+<div class="card">
+    <div class="card-title">Absolute / Overlap Layout</div>
+    <div class="card-subtitle">Overlapping positioned elements</div>
+    <div class="absolute-demo">
+        <div class="absolute-item a">Layer 1</div>
+        <div class="absolute-item b">Layer 2</div>
+        <div class="absolute-item c">Layer 3</div>
+    </div>
+</div>

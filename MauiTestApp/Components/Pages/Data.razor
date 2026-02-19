@@ -1,0 +1,89 @@
+@page "/data"
+@inject SampleDataService DataService
+
+<div class="page-title">Data &amp; Lists</div>
+
+<!-- Search -->
+<div class="search-bar">
+    <input type="search" @bind="searchText" @bind:event="oninput" placeholder="Filter items..." />
+</div>
+
+<!-- Refresh -->
+<div class="btn-group" style="margin-bottom: 16px;">
+    <button class="btn btn-secondary" @onclick="Refresh" disabled="@isRefreshing">
+        @(isRefreshing ? "Refreshing..." : "Refresh Data")
+    </button>
+</div>
+
+<!-- Grouped List -->
+@foreach (var group in groupedItems)
+{
+    <div class="data-group">
+        <div class="data-group-header">@group.Key (@group.Count() items)</div>
+        @foreach (var item in group)
+        {
+            <div class="data-item">
+                <div class="data-item-avatar">@item.Name[0]</div>
+                <div class="data-item-info">
+                    <div class="data-item-name">@item.Name</div>
+                    <div class="data-item-desc">@item.Description</div>
+                </div>
+                <button class="btn btn-danger btn-sm" @onclick="() => DeleteItem(item)">Delete</button>
+            </div>
+        }
+    </div>
+}
+
+@if (!groupedItems.Any())
+{
+    <div class="card" style="text-align:center; color: var(--text-muted);">
+        No items match your search.
+    </div>
+}
+
+@code {
+    private List<SampleDataItem> allItems = new();
+    private string searchText = string.Empty;
+    private bool isRefreshing;
+
+    private IEnumerable<IGrouping<string, SampleDataItem>> groupedItems => GetFilteredGroups();
+
+    protected override void OnInitialized()
+    {
+        LoadData();
+    }
+
+    private void LoadData()
+    {
+        allItems = DataService.GetSampleData();
+    }
+
+    private IEnumerable<IGrouping<string, SampleDataItem>> GetFilteredGroups()
+    {
+        var filtered = string.IsNullOrWhiteSpace(searchText)
+            ? allItems
+            : allItems.Where(i =>
+                i.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+                i.Description.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+                i.Category.Contains(searchText, StringComparison.OrdinalIgnoreCase))
+              .ToList();
+
+        return filtered
+            .GroupBy(i => i.Category)
+            .OrderBy(g => g.Key);
+    }
+
+    private async Task Refresh()
+    {
+        isRefreshing = true;
+        StateHasChanged();
+        await Task.Delay(1500);
+        LoadData();
+        isRefreshing = false;
+    }
+
+    private void DeleteItem(SampleDataItem item)
+    {
+        allItems.Remove(item);
+    }
+}

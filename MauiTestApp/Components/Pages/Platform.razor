@@ -1,0 +1,192 @@
+@page "/platform"
+@inject IPlatformService PlatformService
+
+<div class="page-title">Platform Features</div>
+
+<!-- Device Info -->
+<div class="card">
+    <div class="card-title">Device Information</div>
+    <div class="info-grid">
+        <div class="info-item">
+            <div class="info-label">Manufacturer</div>
+            <div class="info-value">@PlatformService.DeviceManufacturer</div>
+        </div>
+        <div class="info-item">
+            <div class="info-label">Model</div>
+            <div class="info-value">@PlatformService.DeviceModel</div>
+        </div>
+        <div class="info-item">
+            <div class="info-label">OS Version</div>
+            <div class="info-value">@PlatformService.OsVersion</div>
+        </div>
+        <div class="info-item">
+            <div class="info-label">Idiom</div>
+            <div class="info-value">@PlatformService.DeviceIdiom</div>
+        </div>
+        <div class="info-item">
+            <div class="info-label">Platform</div>
+            <div class="info-value">@PlatformService.DevicePlatform</div>
+        </div>
+    </div>
+</div>
+
+<!-- Connectivity -->
+<div class="card">
+    <div class="card-title">Connectivity</div>
+    <div class="btn-group">
+        <button class="btn btn-primary" @onclick="CheckConnectivity">Check Connectivity</button>
+    </div>
+    <div class="info-value" style="margin-top: 8px;">@connectivityStatus</div>
+</div>
+
+<!-- Clipboard -->
+<div class="card">
+    <div class="card-title">Clipboard</div>
+    <div class="btn-group">
+        <button class="btn btn-primary" @onclick="CopyToClipboard">Copy "Hello from MAUI!"</button>
+        <button class="btn btn-secondary" @onclick="PasteFromClipboard">Paste</button>
+    </div>
+    @if (!string.IsNullOrEmpty(clipboardText))
+    {
+        <div class="info-value" style="margin-top: 8px;">Clipboard: @clipboardText</div>
+    }
+</div>
+
+<!-- Share -->
+<div class="card">
+    <div class="card-title">Share</div>
+    <div class="btn-group">
+        <button class="btn btn-primary" @onclick="ShareText">Share Text</button>
+    </div>
+</div>
+
+<!-- Geolocation -->
+<div class="card">
+    <div class="card-title">Geolocation</div>
+    <div class="btn-group">
+        <button class="btn btn-primary" @onclick="GetLocation">Get Location</button>
+    </div>
+    <div class="info-value" style="margin-top: 8px;">@locationText</div>
+</div>
+
+<!-- Vibration -->
+<div class="card">
+    <div class="card-title">Vibration</div>
+    <div class="btn-group">
+        <button class="btn btn-primary" @onclick="DoVibrate">Vibrate (500ms)</button>
+    </div>
+</div>
+
+<!-- Flashlight -->
+<div class="card">
+    <div class="card-title">Flashlight</div>
+    <div class="btn-group">
+        <button class="btn btn-primary" @onclick="ToggleFlashlight">Toggle Flashlight</button>
+    </div>
+    @if (!string.IsNullOrEmpty(flashlightStatus))
+    {
+        <div class="info-value" style="margin-top: 8px;">@flashlightStatus</div>
+    }
+</div>
+
+<!-- Preferences -->
+<div class="card">
+    <div class="card-title">Preferences (Key-Value Storage)</div>
+    <div class="form-group">
+        <label class="form-label">Key</label>
+        <input type="text" @bind="preferenceKey" />
+    </div>
+    <div class="form-group">
+        <label class="form-label">Value to save</label>
+        <input type="text" @bind="preferenceInput" placeholder="Enter a value..." />
+    </div>
+    <div class="btn-group">
+        <button class="btn btn-primary" @onclick="SavePreference">Save</button>
+        <button class="btn btn-secondary" @onclick="ReadPreference">Read</button>
+    </div>
+    @if (!string.IsNullOrEmpty(preferenceValue))
+    {
+        <div class="info-value" style="margin-top: 8px;">Stored value: @preferenceValue</div>
+    }
+</div>
+
+<!-- Status -->
+@if (!string.IsNullOrEmpty(statusMessage))
+{
+    <div class="status-message">@statusMessage</div>
+}
+
+@code {
+    private string connectivityStatus = "Tap to check";
+    private string clipboardText = string.Empty;
+    private string locationText = "Tap to get location";
+    private string flashlightStatus = string.Empty;
+    private string preferenceKey = "demo_key";
+    private string preferenceInput = string.Empty;
+    private string preferenceValue = string.Empty;
+    private string statusMessage = string.Empty;
+
+    private void CheckConnectivity()
+    {
+        connectivityStatus = PlatformService.CheckConnectivity();
+    }
+
+    private async Task CopyToClipboard()
+    {
+        try
+        {
+            await PlatformService.CopyToClipboard("Hello from MAUI!");
+            statusMessage = "Copied to clipboard!";
+        }
+        catch (Exception ex)
+        {
+            statusMessage = $"Not supported: {ex.Message}";
+        }
+    }
+
+    private async Task PasteFromClipboard()
+    {
+        clipboardText = await PlatformService.PasteFromClipboard();
+    }
+
+    private async Task ShareText()
+    {
+        try
+        {
+            await PlatformService.ShareText("Check out this MAUI Feature Showcase app!", "Share from MAUI");
+        }
+        catch (Exception ex)
+        {
+            statusMessage = $"Not supported: {ex.Message}";
+        }
+    }
+
+    private async Task GetLocation()
+    {
+        locationText = "Getting location...";
+        StateHasChanged();
+        locationText = await PlatformService.GetLocation();
+    }
+
+    private void DoVibrate()
+    {
+        PlatformService.Vibrate(500);
+        statusMessage = "Vibrated!";
+    }
+
+    private async Task ToggleFlashlight()
+    {
+        flashlightStatus = await PlatformService.ToggleFlashlight();
+    }
+
+    private void SavePreference()
+    {
+        PlatformService.SavePreference(preferenceKey, preferenceInput);
+        statusMessage = $"Saved '{preferenceInput}' to key '{preferenceKey}'";
+    }
+
+    private void ReadPreference()
+    {
+        preferenceValue = PlatformService.ReadPreference(preferenceKey);
+    }
+}

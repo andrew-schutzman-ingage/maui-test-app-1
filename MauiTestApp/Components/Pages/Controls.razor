@@ -1,0 +1,161 @@
+@page "/controls"
+
+<div class="page-title">Controls Gallery</div>
+
+<!-- Button + Counter -->
+<div class="card">
+    <div class="card-title">Button &amp; Counter</div>
+    <div class="counter-display">@counterValue</div>
+    <div class="btn-group" style="justify-content: center;">
+        <button class="btn btn-primary" @onclick="IncrementCounter">Tap to Count</button>
+    </div>
+</div>
+
+<!-- Text Entry -->
+<div class="card">
+    <div class="card-title">Text Entry</div>
+    <div class="form-group">
+        <label class="form-label">Input Text</label>
+        <input type="text" @bind="entryText" @bind:event="oninput" placeholder="Type something..." />
+        <div class="form-value">You typed: @entryText</div>
+    </div>
+</div>
+
+<!-- Editor / Textarea -->
+<div class="card">
+    <div class="card-title">Multi-line Editor</div>
+    <div class="form-group">
+        <label class="form-label">Editor</label>
+        <textarea @bind="editorText" @bind:event="oninput" placeholder="Write a longer text..."></textarea>
+        <div class="form-value">Characters: @(editorText?.Length ?? 0)</div>
+    </div>
+</div>
+
+<!-- Checkbox & Switch -->
+<div class="card">
+    <div class="card-title">Checkbox &amp; Switch</div>
+    <div class="form-group">
+        <div class="toggle-row">
+            <input type="checkbox" id="chk" @bind="isChecked" />
+            <label for="chk">Checkbox is @(isChecked ? "checked" : "unchecked")</label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="toggle-row">
+            <input type="checkbox" id="sw" role="switch" @bind="isSwitched" />
+            <label for="sw">Switch is @(isSwitched ? "ON" : "OFF")</label>
+        </div>
+    </div>
+</div>
+
+<!-- Slider -->
+<div class="card">
+    <div class="card-title">Slider</div>
+    <div class="form-group">
+        <label class="form-label">Value: @sliderValue.ToString("F0")</label>
+        <input type="range" min="0" max="100" @bind="sliderValue" @bind:event="oninput" />
+    </div>
+</div>
+
+<!-- Stepper -->
+<div class="card">
+    <div class="card-title">Stepper</div>
+    <div class="form-group">
+        <label class="form-label">Value: @stepperValue</label>
+        <div class="btn-group">
+            <button class="btn btn-secondary btn-sm" @onclick="() => stepperValue--">−</button>
+            <span style="padding: 6px 16px; font-weight: 700; font-size: 1.1rem;">@stepperValue</span>
+            <button class="btn btn-secondary btn-sm" @onclick="() => stepperValue++">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Date & Time Pickers -->
+<div class="card">
+    <div class="card-title">Date &amp; Time Pickers</div>
+    <div class="form-group">
+        <label class="form-label">Date</label>
+        <input type="date" @bind="selectedDate" />
+        <div class="form-value">Selected: @selectedDate.ToString("d")</div>
+    </div>
+    <div class="form-group">
+        <label class="form-label">Time</label>
+        <input type="time" @bind="selectedTime" />
+        <div class="form-value">Selected: @selectedTime.ToString(@"hh\:mm")</div>
+    </div>
+</div>
+
+<!-- Picker / Select -->
+<div class="card">
+    <div class="card-title">Picker (Select)</div>
+    <div class="form-group">
+        <label class="form-label">Choose an option</label>
+        <select @bind="selectedPickerItem">
+            @foreach (var item in pickerItems)
+            {
+                <option value="@item">@item</option>
+            }
+        </select>
+        <div class="form-value">Selected: @selectedPickerItem</div>
+    </div>
+</div>
+
+<!-- Activity Indicator & Progress -->
+<div class="card">
+    <div class="card-title">Spinner &amp; Progress Bar</div>
+    <div class="form-group">
+        <button class="btn btn-secondary" @onclick="ToggleLoading">
+            @(isLoading ? "Stop Spinner" : "Start Spinner")
+        </button>
+        @if (isLoading)
+        {
+            <div style="margin-top: 12px;"><span class="spinner"></span></div>
+        }
+    </div>
+    <hr class="section-divider" />
+    <div class="form-group">
+        <label class="form-label">Progress: @((progressValue * 100).ToString("F0"))%</label>
+        <progress value="@progressValue" max="1"></progress>
+        <input type="range" min="0" max="100" value="@((progressValue * 100).ToString("F0"))"
+               @oninput="OnProgressInput" style="margin-top: 8px;" />
+    </div>
+</div>
+
+<!-- Search -->
+<div class="card">
+    <div class="card-title">Search Bar</div>
+    <div class="form-group">
+        <input type="search" @bind="searchText" @bind:event="oninput" placeholder="Search for something..." />
+        <div class="form-value">Searching for: "@searchText"</div>
+    </div>
+</div>
+
+@code {
+    private int counterValue;
+    private string entryText = string.Empty;
+    private string editorText = string.Empty;
+    private bool isChecked;
+    private bool isSwitched;
+    private double sliderValue = 50;
+    private int stepperValue = 5;
+    private DateTime selectedDate = DateTime.Today;
+    private TimeSpan selectedTime = DateTime.Now.TimeOfDay;
+    private string selectedPickerItem = "Option 1";
+    private string searchText = string.Empty;
+    private double progressValue = 0.5;
+    private bool isLoading;
+
+    private List<string> pickerItems = new() { "Option 1", "Option 2", "Option 3", "Option 4", "Option 5" };
+
+    private void IncrementCounter() => counterValue++;
+
+    private void ToggleLoading() => isLoading = !isLoading;
+
+    private void OnProgressInput(ChangeEventArgs e)
+    {
+        if (double.TryParse(e.Value?.ToString(), out var val))
+        {
+            progressValue = val / 100.0;
+        }
+    }
+}
