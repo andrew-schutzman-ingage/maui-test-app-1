@@ -81,7 +81,7 @@
     <div class="form-group">
         <label class="form-label">Time</label>
         <input type="time" @bind="selectedTime" />
-        <div class="form-value">Selected: @selectedTime.ToString(@"hh\:mm")</div>
+        <div class="form-value">Selected: @selectedTime.ToString("HH:mm")</div>
     </div>
 </div>
 
@@ -139,7 +139,7 @@
     private double sliderValue = 50;
     private int stepperValue = 5;
     private DateTime selectedDate = DateTime.Today;
-    private TimeSpan selectedTime = DateTime.Now.TimeOfDay;
+    private TimeOnly selectedTime = TimeOnly.FromDateTime(DateTime.Now);
     private string selectedPickerItem = "Option 1";
     private string searchText = string.Empty;
     private double progressValue = 0.5;
