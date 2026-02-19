@@ -71,7 +71,10 @@ public class GraphicsDrawable : IDrawable
         canvas.StrokeLineCap = LineCap.Round;
 
         float curveY = height > 150 ? 140 : height - 20;
-        canvas.DrawCurve(20, curveY, 80, curveY - 60, 160, curveY + 40, width - 20, curveY - 20);
+        var curvePath = new PathF();
+        curvePath.MoveTo(20, curveY);
+        curvePath.CurveTo(80, curveY - 60, 160, curveY + 40, width - 20, curveY - 20);
+        canvas.DrawPath(curvePath);
 
         // Label for curve
         canvas.FontColor = Colors.Gray;

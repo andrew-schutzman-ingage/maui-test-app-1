@@ -171,17 +171,10 @@ public partial class PlatformViewModel : BaseViewModel
     {
         try
         {
-            if (Flashlight.Default.IsSupported)
-            {
-                await Flashlight.Default.TurnOnAsync();
-                StatusMessage = "Flashlight toggled";
-                await Task.Delay(2000);
-                await Flashlight.Default.TurnOffAsync();
-            }
-            else
-            {
-                StatusMessage = "Flashlight not supported on this device";
-            }
+            await Flashlight.Default.TurnOnAsync();
+            StatusMessage = "Flashlight toggled";
+            await Task.Delay(2000);
+            await Flashlight.Default.TurnOffAsync();
         }
         catch (Exception ex)
         {
