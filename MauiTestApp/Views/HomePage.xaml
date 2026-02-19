@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MauiTestApp.ViewModels"
+             xmlns:models="clr-namespace:MauiTestApp.Models"
+             x:Class="MauiTestApp.Views.HomePage"
+             x:DataType="vm:HomeViewModel"
+             Title="{Binding Title}">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="0">
+
+            <!-- App Header -->
+            <Frame Style="{StaticResource DemoCard}" Margin="16,16,16,8">
+                <VerticalStackLayout Spacing="4">
+                    <Label Text=".NET MAUI"
+                           FontSize="32"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Primary}" />
+                    <Label Text="Feature Showcase"
+                           FontSize="18"
+                           TextColor="{StaticResource TextSecondary}" />
+                    <Label Text="Explore the variety of features that .NET MAUI offers for cross-platform development."
+                           FontSize="14"
+                           TextColor="{StaticResource TextSecondary}"
+                           Margin="0,8,0,0" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Feature Categories -->
+            <CollectionView ItemsSource="{Binding Categories}"
+                            SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:FeatureCategory">
+                        <VerticalStackLayout Spacing="0">
+                            <!-- Category Header -->
+                            <Label Style="{StaticResource SectionHeader}">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{Binding Icon}" />
+                                        <Span Text=" " />
+                                        <Span Text="{Binding Name}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Label Text="{Binding Description}"
+                                   Style="{StaticResource DemoLabel}"
+                                   Margin="16,0,16,8" />
+
+                            <!-- Demo Items -->
+                            <CollectionView ItemsSource="{Binding Demos}"
+                                            SelectionMode="None">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="models:FeatureDemo">
+                                        <Frame Style="{StaticResource DemoCard}">
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:HomeViewModel}}, Path=NavigateToDemoCommand}"
+                                                    CommandParameter="{Binding .}" />
+                                            </Frame.GestureRecognizers>
+                                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                                                <Label Text="{Binding Icon}"
+                                                       FontSize="28"
+                                                       VerticalOptions="Center"
+                                                       Grid.Column="0" />
+                                                <VerticalStackLayout Grid.Column="1"
+                                                                     VerticalOptions="Center"
+                                                                     Spacing="2">
+                                                    <Label Text="{Binding Name}"
+                                                           FontSize="16"
+                                                           FontAttributes="Bold"
+                                                           TextColor="{AppThemeBinding Light={StaticResource TextPrimary}, Dark=White}" />
+                                                    <Label Text="{Binding Description}"
+                                                           FontSize="13"
+                                                           TextColor="{StaticResource TextSecondary}" />
+                                                </VerticalStackLayout>
+                                                <Label Text="›"
+                                                       FontSize="24"
+                                                       TextColor="{StaticResource TextSecondary}"
+                                                       VerticalOptions="Center"
+                                                       Grid.Column="2" />
+                                            </Grid>
+                                        </Frame>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Footer -->
+            <Label Text="Built with .NET MAUI &amp; CommunityToolkit"
+                   FontSize="12"
+                   TextColor="{StaticResource TextSecondary}"
+                   HorizontalOptions="Center"
+                   Margin="0,16,0,32" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

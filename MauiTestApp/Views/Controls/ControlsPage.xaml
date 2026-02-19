@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MauiTestApp.ViewModels"
+             x:Class="MauiTestApp.Views.Controls.ControlsPage"
+             x:DataType="vm:ControlsViewModel"
+             Title="{Binding Title}">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="0" Padding="0,0,0,32">
+
+            <Label Style="{StaticResource PageTitle}" Text="Controls Gallery" />
+            <Label Style="{StaticResource PageDescription}"
+                   Text="Interactive demonstrations of MAUI's built-in UI controls with two-way data binding." />
+
+            <!-- Button -->
+            <Label Style="{StaticResource SectionHeader}" Text="Button" />
+            <Frame Style="{StaticResource DemoCard}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Style="{StaticResource DemoLabel}"
+                           Text="A clickable button that triggers a command. The counter value is bound to the ViewModel." />
+                    <Button Text="{Binding CounterValue, StringFormat='Clicked {0} times'}"
+                            Style="{StaticResource PrimaryButton}"
+                            Command="{Binding IncrementCounterCommand}" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Entry & Label binding -->
+            <Label Style="{StaticResource SectionHeader}" Text="Entry &amp; Label" />
+            <Frame Style="{StaticResource DemoCard}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Style="{StaticResource DemoLabel}"
+                           Text="An Entry with two-way binding. The Label below updates in real-time as you type." />
+                    <Entry Placeholder="Type something here..."
+                           Text="{Binding EntryText}" />
+                    <Label Text="{Binding EntryText, StringFormat='You typed: {0}'}"
+                           Style="{StaticResource ValueDisplay}" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Editor -->
+            <Label Style="{StaticResource SectionHeader}" Text="Editor" />
+            <Frame Style="{StaticResource DemoCard}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Style="{StaticResource DemoLabel}"
+                           Text="A multi-line text editor with character count tracking." />
+                    <Editor Placeholder="Write a longer text..."
+                            Text="{Binding EditorText}"
+                            HeightRequest="100"
+                            AutoSize="TextChanges" />
+                    <Label Text="{Binding EditorCharacterCount, StringFormat='{0} characters'}"
+                           Style="{StaticResource ValueDisplay}" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- CheckBox -->
+            <Label Style="{StaticResource SectionHeader}" Text="CheckBox" />
+            <Frame Style="{StaticResource DemoCard}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Style="{StaticResource DemoLabel}"
+                           Text="A checkbox with two-way binding to a boolean property." />
+                    <HorizontalStackLayout Spacing="12">
+                        <CheckBox IsChecked="{Binding IsChecked}"
+                                  Color="{StaticResource Primary}" />
+                        <Label Text="{Binding IsChecked, StringFormat='Checked: {0}'}"
+                               VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Switch -->
+            <Label Style="{StaticResource SectionHeader}" Text="Switch" />
+            <Frame Style="{StaticResource DemoCard}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Style="{StaticResource DemoLabel}"
+                           Text="A toggle switch bound to a boolean property." />
+                    <HorizontalStackLayout Spacing="12">
+                        <Switch IsToggled="{Binding IsSwitched}"
+                                OnColor="{StaticResource Primary}" />
+                        <Label Text="{Binding IsSwitched, StringFormat='Toggled: {0}'}"
+                               VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Slider -->
+            <Label Style="{StaticResource SectionHeader}" Text="Slider" />
+            <Frame Style="{StaticResource DemoCard}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Style="{StaticResource DemoLabel}"
+                           Text="A slider control with value display. Also drives the ProgressBar below." />
+                    <Slider Minimum="0" Maximum="100"
+                            Value="{Binding SliderValue}"
+                            MinimumTrackColor="{StaticResource Primary}"
+                            ThumbColor="{StaticResource Primary}" />
+                    <Label Text="{Binding SliderValue, StringFormat='Value: {0:F1}'}"
+                           Style="{StaticResource ValueDisplay}" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Stepper -->
+            <Label Style="{StaticResource SectionHeader}" Text="Stepper" />
+            <Frame Style="{StaticResource DemoCard}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Style="{StaticResource DemoLabel}"
+                           Text="A stepper for incrementing/decrementing an integer value." />
+                    <HorizontalStackLayout Spacing="12" HorizontalOptions="Center">
+                        <Stepper Minimum="0" Maximum="20"
+                                 Increment="1"
+                                 Value="{Binding StepperValue}" />
+                        <Label Text="{Binding StepperValue, StringFormat='Value: {0}'}"
+                               Style="{StaticResource ValueDisplay}"
+                               VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- DatePicker -->
+            <Label Style="{StaticResource SectionHeader}" Text="DatePicker" />
+            <Frame Style="{StaticResource DemoCard}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Style="{StaticResource DemoLabel}"
+                           Text="A date picker bound to a DateTime property." />
+                    <DatePicker Date="{Binding SelectedDate}"
+                                Format="D" />
+                    <Label Text="{Binding SelectedDate, StringFormat='Selected: {0:yyyy-MM-dd}'}"
+                           Style="{StaticResource ValueDisplay}" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- TimePicker -->
+            <Label Style="{StaticResource SectionHeader}" Text="TimePicker" />
+            <Frame Style="{StaticResource DemoCard}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Style="{StaticResource DemoLabel}"
+                           Text="A time picker bound to a TimeSpan property." />
+                    <TimePicker Time="{Binding SelectedTime}"
+                                Format="T" />
+                    <Label Text="{Binding SelectedTime, StringFormat='Selected: {0}'}"
+                           Style="{StaticResource ValueDisplay}" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Picker -->
+            <Label Style="{StaticResource SectionHeader}" Text="Picker" />
+            <Frame Style="{StaticResource DemoCard}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Style="{StaticResource DemoLabel}"
+                           Text="A dropdown picker with a bound list of items." />
+                    <Picker ItemsSource="{Binding PickerItems}"
+                            SelectedItem="{Binding SelectedPickerItem}"
+                            Title="Choose an option" />
+                    <Label Text="{Binding SelectedPickerItem, StringFormat='Selected: {0}'}"
+                           Style="{StaticResource ValueDisplay}" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- ActivityIndicator -->
+            <Label Style="{StaticResource SectionHeader}" Text="ActivityIndicator" />
+            <Frame Style="{StaticResource DemoCard}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Style="{StaticResource DemoLabel}"
+                           Text="An activity spinner toggled by a button command." />
+                    <ActivityIndicator IsRunning="{Binding IsLoading}"
+                                       IsVisible="{Binding IsLoading}"
+                                       Color="{StaticResource Primary}"
+                                       HeightRequest="40" />
+                    <Button Text="{Binding IsLoading, StringFormat='Loading: {0} (tap to toggle)'}"
+                            Style="{StaticResource PrimaryButton}"
+                            Command="{Binding ToggleLoadingCommand}" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- ProgressBar -->
+            <Label Style="{StaticResource SectionHeader}" Text="ProgressBar" />
+            <Frame Style="{StaticResource DemoCard}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Style="{StaticResource DemoLabel}"
+                           Text="A progress bar driven by the Slider value above (divided by 100)." />
+                    <ProgressBar Progress="{Binding SliderValue, Converter={StaticResource DivideBy100}}"
+                                 ProgressColor="{StaticResource Primary}" />
+                    <Label Text="{Binding SliderValue, StringFormat='Progress: {0:F0}%'}"
+                           Style="{StaticResource ValueDisplay}" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- SearchBar -->
+            <Label Style="{StaticResource SectionHeader}" Text="SearchBar" />
+            <Frame Style="{StaticResource DemoCard}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Style="{StaticResource DemoLabel}"
+                           Text="A search bar with bound text display." />
+                    <SearchBar Placeholder="Search for something..."
+                               Text="{Binding SearchText}" />
+                    <Label Text="{Binding SearchText, StringFormat='Searching for: {0}'}"
+                           Style="{StaticResource ValueDisplay}" />
+                </VerticalStackLayout>
+            </Frame>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

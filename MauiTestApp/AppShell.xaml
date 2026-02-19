@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:views="clr-namespace:MauiTestApp.Views"
+       xmlns:controls="clr-namespace:MauiTestApp.Views.Controls"
+       xmlns:layouts="clr-namespace:MauiTestApp.Views.Layouts"
+       xmlns:data="clr-namespace:MauiTestApp.Views.Data"
+       xmlns:graphics="clr-namespace:MauiTestApp.Views.Graphics"
+       xmlns:platform="clr-namespace:MauiTestApp.Views.Platform"
+       x:Class="MauiTestApp.AppShell"
+       Title="MAUI Feature Showcase"
+       Shell.FlyoutBehavior="Disabled">
+
+    <!-- Home page is the root -->
+    <ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate views:HomePage}"
+        Route="HomePage" />
+
+</Shell>

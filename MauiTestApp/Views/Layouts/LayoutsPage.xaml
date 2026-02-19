@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MauiTestApp.ViewModels"
+             x:Class="MauiTestApp.Views.Layouts.LayoutsPage"
+             x:DataType="vm:LayoutsViewModel"
+             Title="{Binding Title}">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="0" Padding="0,0,0,32">
+
+            <Label Style="{StaticResource PageTitle}" Text="Layouts Demo" />
+            <Label Style="{StaticResource PageDescription}"
+                   Text="Visual demonstrations of how MAUI layout containers arrange their children." />
+
+            <!-- VerticalStackLayout -->
+            <Label Style="{StaticResource SectionHeader}" Text="VerticalStackLayout" />
+            <Frame Style="{StaticResource DemoCard}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Style="{StaticResource DemoLabel}"
+                           Text="Arranges children vertically in a single column, top to bottom." />
+                    <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
+                        <Frame BackgroundColor="#E8D5F5" CornerRadius="6" Padding="20,10" HasShadow="False" BorderColor="Transparent">
+                            <Label Text="Item 1" HorizontalOptions="Center" FontAttributes="Bold" />
+                        </Frame>
+                        <Frame BackgroundColor="#D5E5F5" CornerRadius="6" Padding="20,10" HasShadow="False" BorderColor="Transparent">
+                            <Label Text="Item 2" HorizontalOptions="Center" FontAttributes="Bold" />
+                        </Frame>
+                        <Frame BackgroundColor="#D5F5E5" CornerRadius="6" Padding="20,10" HasShadow="False" BorderColor="Transparent">
+                            <Label Text="Item 3" HorizontalOptions="Center" FontAttributes="Bold" />
+                        </Frame>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- HorizontalStackLayout -->
+            <Label Style="{StaticResource SectionHeader}" Text="HorizontalStackLayout" />
+            <Frame Style="{StaticResource DemoCard}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Style="{StaticResource DemoLabel}"
+                           Text="Arranges children horizontally in a single row, left to right." />
+                    <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+                        <Frame BackgroundColor="#F5D5D5" CornerRadius="6" Padding="16,20" HasShadow="False" BorderColor="Transparent">
+                            <Label Text="A" HorizontalOptions="Center" FontAttributes="Bold" FontSize="18" />
+                        </Frame>
+                        <Frame BackgroundColor="#F5E5D5" CornerRadius="6" Padding="16,20" HasShadow="False" BorderColor="Transparent">
+                            <Label Text="B" HorizontalOptions="Center" FontAttributes="Bold" FontSize="18" />
+                        </Frame>
+                        <Frame BackgroundColor="#F5F5D5" CornerRadius="6" Padding="16,20" HasShadow="False" BorderColor="Transparent">
+                            <Label Text="C" HorizontalOptions="Center" FontAttributes="Bold" FontSize="18" />
+                        </Frame>
+                        <Frame BackgroundColor="#D5F5D5" CornerRadius="6" Padding="16,20" HasShadow="False" BorderColor="Transparent">
+                            <Label Text="D" HorizontalOptions="Center" FontAttributes="Bold" FontSize="18" />
+                        </Frame>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Grid -->
+            <Label Style="{StaticResource SectionHeader}" Text="Grid" />
+            <Frame Style="{StaticResource DemoCard}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Style="{StaticResource DemoLabel}"
+                           Text="Arranges children in rows and columns. Cells are defined by RowDefinitions and ColumnDefinitions." />
+                    <Grid RowDefinitions="60,60,60"
+                          ColumnDefinitions="*,*,*"
+                          RowSpacing="4" ColumnSpacing="4">
+                        <Frame BackgroundColor="#512BD4" CornerRadius="6" Padding="4" HasShadow="False" BorderColor="Transparent" Grid.Row="0" Grid.Column="0">
+                            <Label Text="R0,C0" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" FontSize="12" />
+                        </Frame>
+                        <Frame BackgroundColor="#7B5CD6" CornerRadius="6" Padding="4" HasShadow="False" BorderColor="Transparent" Grid.Row="0" Grid.Column="1">
+                            <Label Text="R0,C1" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" FontSize="12" />
+                        </Frame>
+                        <Frame BackgroundColor="#9B7DD8" CornerRadius="6" Padding="4" HasShadow="False" BorderColor="Transparent" Grid.Row="0" Grid.Column="2">
+                            <Label Text="R0,C2" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" FontSize="12" />
+                        </Frame>
+                        <Frame BackgroundColor="#BB9EDA" CornerRadius="6" Padding="4" HasShadow="False" BorderColor="Transparent" Grid.Row="1" Grid.Column="0">
+                            <Label Text="R1,C0" HorizontalOptions="Center" VerticalOptions="Center" FontSize="12" />
+                        </Frame>
+                        <Frame BackgroundColor="#512BD4" CornerRadius="6" Padding="4" HasShadow="False" BorderColor="Transparent" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
+                            <Label Text="R1,C1 (ColumnSpan=2)" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" FontSize="12" />
+                        </Frame>
+                        <Frame BackgroundColor="#DFD8F7" CornerRadius="6" Padding="4" HasShadow="False" BorderColor="Transparent" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
+                            <Label Text="R2,C0 (ColumnSpan=3 — Full Width)" HorizontalOptions="Center" VerticalOptions="Center" FontSize="12" />
+                        </Frame>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- FlexLayout -->
+            <Label Style="{StaticResource SectionHeader}" Text="FlexLayout" />
+            <Frame Style="{StaticResource DemoCard}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Style="{StaticResource DemoLabel}"
+                           Text="CSS Flexbox-style layout. Children wrap and flow with configurable alignment and justification." />
+                    <FlexLayout Wrap="Wrap"
+                                JustifyContent="SpaceEvenly"
+                                AlignItems="Center"
+                                AlignContent="Start">
+                        <Frame BackgroundColor="#FF6B6B" CornerRadius="6" Padding="12,8" Margin="4" HasShadow="False" BorderColor="Transparent">
+                            <Label Text="Flex 1" TextColor="White" FontAttributes="Bold" />
+                        </Frame>
+                        <Frame BackgroundColor="#4ECDC4" CornerRadius="6" Padding="24,8" Margin="4" HasShadow="False" BorderColor="Transparent">
+                            <Label Text="Flex 2 (wider)" TextColor="White" FontAttributes="Bold" />
+                        </Frame>
+                        <Frame BackgroundColor="#45B7D1" CornerRadius="6" Padding="12,8" Margin="4" HasShadow="False" BorderColor="Transparent">
+                            <Label Text="Flex 3" TextColor="White" FontAttributes="Bold" />
+                        </Frame>
+                        <Frame BackgroundColor="#96CEB4" CornerRadius="6" Padding="18,8" Margin="4" HasShadow="False" BorderColor="Transparent">
+                            <Label Text="Flex 4" TextColor="White" FontAttributes="Bold" />
+                        </Frame>
+                        <Frame BackgroundColor="#FFEAA7" CornerRadius="6" Padding="30,8" Margin="4" HasShadow="False" BorderColor="Transparent">
+                            <Label Text="Flex 5 (widest)" FontAttributes="Bold" />
+                        </Frame>
+                        <Frame BackgroundColor="#DDA0DD" CornerRadius="6" Padding="12,8" Margin="4" HasShadow="False" BorderColor="Transparent">
+                            <Label Text="Flex 6" FontAttributes="Bold" />
+                        </Frame>
+                    </FlexLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- AbsoluteLayout -->
+            <Label Style="{StaticResource SectionHeader}" Text="AbsoluteLayout" />
+            <Frame Style="{StaticResource DemoCard}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Style="{StaticResource DemoLabel}"
+                           Text="Positions children at explicit coordinates or proportional positions. Useful for overlapping elements." />
+                    <AbsoluteLayout HeightRequest="180" BackgroundColor="#F0F0F0">
+                        <BoxView Color="#512BD4" CornerRadius="8"
+                                 AbsoluteLayout.LayoutBounds="10,10,120,80"
+                                 AbsoluteLayout.LayoutFlags="None" />
+                        <Label Text="Absolute (10,10)"
+                               TextColor="White" FontSize="11"
+                               AbsoluteLayout.LayoutBounds="20,40,100,20"
+                               AbsoluteLayout.LayoutFlags="None" />
+                        <BoxView Color="#FF6B6B" CornerRadius="8" Opacity="0.8"
+                                 AbsoluteLayout.LayoutBounds="80,50,120,80"
+                                 AbsoluteLayout.LayoutFlags="None" />
+                        <Label Text="Overlapping (80,50)"
+                               TextColor="White" FontSize="11"
+                               AbsoluteLayout.LayoutBounds="85,80,120,20"
+                               AbsoluteLayout.LayoutFlags="None" />
+                        <BoxView Color="#4ECDC4" CornerRadius="8"
+                                 AbsoluteLayout.LayoutBounds="0.8,0.7,100,60"
+                                 AbsoluteLayout.LayoutFlags="PositionProportional" />
+                        <Label Text="Proportional (80%,70%)"
+                               FontSize="10"
+                               AbsoluteLayout.LayoutBounds="0.72,0.82,140,20"
+                               AbsoluteLayout.LayoutFlags="PositionProportional" />
+                    </AbsoluteLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
