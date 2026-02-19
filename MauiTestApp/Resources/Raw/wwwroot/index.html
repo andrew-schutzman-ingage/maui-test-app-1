@@ -614,7 +614,7 @@
     </div>
 
     <script>
-    const { createApp, ref, computed, reactive, onMounted, nextTick } = Vue;
+    const { createApp, ref, computed, reactive, onMounted, onUnmounted, nextTick } = Vue;
     const { createRouter, createWebHashHistory } = VueRouter;
 
     // ── Home Page Component ──
@@ -1382,6 +1382,28 @@
                         📳 Vibrate Device
                     </button>
                 </div>
+
+                <!-- Camera -->
+                <div class="section-header">📷 Camera</div>
+                <div class="card">
+                    <div v-if="!cameraStream && !cameraError" style="text-align:center">
+                        <button class="platform-btn" @click="startCamera">📷 Start Camera</button>
+                    </div>
+                    <div v-if="cameraError" class="result-text" style="color:var(--danger);margin-top:0">{{ cameraError }}</div>
+                    <div v-if="cameraStream">
+                        <video ref="videoEl" autoplay playsinline muted
+                               style="width:100%;border-radius:8px;background:#000;display:block"></video>
+                        <div style="display:flex;gap:8px;margin-top:8px">
+                            <button class="platform-btn" @click="takeSnapshot" style="flex:1;background:var(--success)">📸 Snapshot</button>
+                            <button class="platform-btn" @click="stopCamera" style="flex:1;background:var(--danger)">⏹ Stop</button>
+                        </div>
+                    </div>
+                    <canvas ref="snapshotCanvas" style="display:none"></canvas>
+                    <div v-if="snapshotUrl" style="margin-top:12px">
+                        <img :src="snapshotUrl" style="width:100%;border-radius:8px;display:block" />
+                        <div class="result-text">📸 Snapshot captured!</div>
+                    </div>
+                </div>
             </div>
         `,
         setup() {
@@ -1496,12 +1518,55 @@
                 }
             };
 
+            const videoEl = ref(null);
+            const snapshotCanvas = ref(null);
+            const cameraStream = ref(null);
+            const cameraError = ref('');
+            const snapshotUrl = ref('');
+
+            const startCamera = async () => {
+                cameraError.value = '';
+                snapshotUrl.value = '';
+                if (!navigator.mediaDevices?.getUserMedia) {
+                    cameraError.value = '❌ Camera API not supported on this platform';
+                    return;
+                }
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+                    cameraStream.value = stream;
+                    await nextTick();
+                    if (videoEl.value) videoEl.value.srcObject = stream;
+                } catch (err) {
+                    cameraError.value = '❌ ' + err.message;
+                }
+            };
+
+            const stopCamera = () => {
+                cameraStream.value?.getTracks().forEach(t => t.stop());
+                cameraStream.value = null;
+                if (videoEl.value) videoEl.value.srcObject = null;
+            };
+
+            const takeSnapshot = () => {
+                if (!videoEl.value || !snapshotCanvas.value) return;
+                const video = videoEl.value;
+                const canvas = snapshotCanvas.value;
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                canvas.getContext('2d').drawImage(video, 0, 0);
+                snapshotUrl.value = canvas.toDataURL('image/jpeg', 0.85);
+            };
+
+            onUnmounted(() => stopCamera());
+
             return {
                 deviceInfo, isOnline, connectionType,
                 clipText, clipResult, copyToClipboard, pasteFromClipboard,
                 shareContent, getLocation, geoLoading, geoResult,
                 prefKey, prefValue, prefResult, savePref, loadPref, deletePref,
-                vibrate
+                vibrate,
+                videoEl, snapshotCanvas, cameraStream, cameraError, snapshotUrl,
+                startCamera, stopCamera, takeSnapshot
             };
         }
     };
