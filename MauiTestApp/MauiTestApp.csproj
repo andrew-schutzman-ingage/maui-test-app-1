@@ -11,6 +11,7 @@
 		<Nullable>enable</Nullable>
 
 		<ApplicationTitle>MAUI Feature Showcase</ApplicationTitle>
+		<ApplicationId>com.mauiapp.mauishowcase</ApplicationId>
 		<ApplicationIdGuid>A1B2C3D4-E5F6-7890-ABCD-EF1234567890</ApplicationIdGuid>
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
