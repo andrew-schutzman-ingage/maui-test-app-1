@@ -15,6 +15,13 @@ public static class MauiProgram
 
         builder.Services.AddTransient<MainPage>();
 
+#if ANDROID
+        Microsoft.Maui.Handlers.HybridWebViewHandler.Mapper.AppendToMapping("WebPermissions", (handler, view) =>
+        {
+            handler.PlatformView.SetWebChromeClient(new AppWebChromeClient());
+        });
+#endif
+
         return builder.Build();
     }
 }

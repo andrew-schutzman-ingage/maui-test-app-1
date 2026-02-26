@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MauiTestApp": {
+      "commandName": "Project",
+      "hotReloadEnabled": false
+    }
+  }
+}
