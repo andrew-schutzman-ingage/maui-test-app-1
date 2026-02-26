@@ -54,6 +54,14 @@ public class MauiPlatformService : IPlatformService
     {
         try
         {
+            var status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
+            if (status != PermissionStatus.Granted)
+            {
+                status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
+                if (status != PermissionStatus.Granted)
+                    return "Location permission denied";
+            }
+
             var location = await Geolocation.Default.GetLocationAsync(
                 new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10)));
 
@@ -91,6 +99,14 @@ public class MauiPlatformService : IPlatformService
     {
         try
         {
+            var status = await Permissions.CheckStatusAsync<Permissions.Flashlight>();
+            if (status != PermissionStatus.Granted)
+            {
+                status = await Permissions.RequestAsync<Permissions.Flashlight>();
+                if (status != PermissionStatus.Granted)
+                    return "Flashlight permission denied";
+            }
+
             await Flashlight.Default.TurnOnAsync();
             await Task.Delay(2000);
             await Flashlight.Default.TurnOffAsync();
@@ -110,5 +126,50 @@ public class MauiPlatformService : IPlatformService
     public string ReadPreference(string key)
     {
         return Preferences.Default.Get(key, "(not set)");
+    }
+
+    public async Task<CameraResult> TakePhotoAsync()
+    {
+        try
+        {
+            if (!MediaPicker.Default.IsCaptureSupported)
+                return new CameraResult { Success = false, Message = "Camera not supported on this device" };
+
+            var status = await Permissions.CheckStatusAsync<Permissions.Camera>();
+            if (status != PermissionStatus.Granted)
+            {
+                status = await Permissions.RequestAsync<Permissions.Camera>();
+                if (status != PermissionStatus.Granted)
+                    return new CameraResult { Success = false, Message = "Camera permission denied" };
+            }
+
+            var photo = await MediaPicker.Default.CapturePhotoAsync();
+            if (photo is null)
+                return new CameraResult { Success = false, Message = "Photo capture cancelled" };
+
+            using var stream = await photo.OpenReadAsync();
+            using var memoryStream = new MemoryStream();
+            await stream.CopyToAsync(memoryStream);
+            var base64 = Convert.ToBase64String(memoryStream.ToArray());
+
+            return new CameraResult
+            {
+                Success = true,
+                Message = $"Photo captured: {photo.FileName}",
+                ImageBase64 = base64
+            };
+        }
+        catch (FeatureNotSupportedException)
+        {
+            return new CameraResult { Success = false, Message = "Camera not supported on this device" };
+        }
+        catch (PermissionException)
+        {
+            return new CameraResult { Success = false, Message = "Camera permission denied" };
+        }
+        catch (Exception ex)
+        {
+            return new CameraResult { Success = false, Message = $"Camera error: {ex.Message}" };
+        }
     }
 }

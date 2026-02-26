@@ -17,4 +17,12 @@ public interface IPlatformService
     Task<string> ToggleFlashlight();
     void SavePreference(string key, string value);
     string ReadPreference(string key);
+    Task<CameraResult> TakePhotoAsync();
+}
+
+public class CameraResult
+{
+    public bool Success { get; set; }
+    public string? Message { get; set; }
+    public string? ImageBase64 { get; set; }
 }
