@@ -36,4 +36,8 @@
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="MauiTestApp\Platforms\Android\" />
+	</ItemGroup>
+
 </Project>
