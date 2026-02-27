@@ -32,12 +32,21 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
-		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
+	  <AndroidResource Remove="MauiTestApp\**" />
+	  <Compile Remove="MauiTestApp\**" />
+	  <EmbeddedResource Remove="MauiTestApp\**" />
+	  <MauiCss Remove="MauiTestApp\**" />
+	  <MauiXaml Remove="MauiTestApp\**" />
+	  <None Remove="MauiTestApp\**" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="MauiTestApp\Platforms\Android\" />
+	  <MauiCss Remove="Resources\Raw\wwwroot\css\app.css" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 	</ItemGroup>
 
 </Project>
